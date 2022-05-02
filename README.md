@@ -1,46 +1,87 @@
-# Getting Started with Create React App
+## FC
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+\- FC(Functional Component) 타입의 약어  
+\- FC\<Props> 형식으로 props 타입 전달
 
-## Available Scripts
+```ts
+import { FC, ChangeEvent, useState } from "react";
 
-In the project directory, you can run:
+// interface is for object type
+export interface Props {
+  name?: string;
+  age?: number;
+  email?: string;
+  getname?: (name: string) => string;
+}
 
-### `npm start`
+export const Person: FC<Props> = ({ name, email, age }) => {
+  const [country, setCountry] = useState<string | null>(null);
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+  const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
+    setCountry(event.target.value);
+  };
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+  return (
+    <div>
+      <h1>{name}</h1>
+      <h1>{age}</h1>
+      <h1>{email}</h1>
+      <input placeholder='write down your country..' onChange={handleChange} />
+      {country}
+    </div>
+  );
+};
+```
 
-### `npm test`
+## Enum
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+```ts
+enum HairColor {
+  Blonde = "Your hair is blond, good for you",
+  Brown = "Coll hair color",
+  Pink = "Wow that is so cool",
+}
+```
 
-### `npm run build`
+## Type
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+```ts
+type NameType = "Himchan" | "Jason";
+```
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## Typesciprt with contextAPI
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+```ts
+import React, { FC, createContext } from "react";
+import "./App.css";
+import { Person, HairColor } from "./components/Person";
 
-### `npm run eject`
+interface AppContextInterface {
+  name: string;
+  age: number;
+  country: string;
+}
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+const AppContext = createContext<AppContextInterface | null>(null);
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+const App: FC = () => {
+  const contextValue: AppContextInterface = {
+    name: "Himchan",
+    age: 20,
+    country: "Korea",
+  };
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+  return (
+    <AppContext.Provider value={contextValue}>
+      <Person
+        name='himchan'
+        age={20}
+        email='ggrego@naver.com'
+        hairColor={HairColor.Blonde}
+      />
+    </AppContext.Provider>
+  );
+};
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+export default App;
+```
