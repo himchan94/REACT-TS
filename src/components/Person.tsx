@@ -8,12 +8,12 @@ export interface Props {
   getname?: (name: string) => string;
 }
 
-export const Person = (props: Props) => {
+export const Person = ({ name, email, age }: Props) => {
   return (
     <div>
-      <h1>{props.name}</h1>
-      <h1>{props.age}</h1>
-      <h1>{props.email}</h1>
+      <h1>{name}</h1>
+      <h1>{age}</h1>
+      <h1>{email}</h1>
     </div>
   );
 };
