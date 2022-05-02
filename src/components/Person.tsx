@@ -1,4 +1,4 @@
-import * as React from "react";
+import { FC } from "react";
 
 // interface is for object type
 export interface Props {
@@ -8,7 +8,7 @@ export interface Props {
   getname?: (name: string) => string;
 }
 
-export const Person = ({ name, email, age }: Props) => {
+export const Person: FC<Props> = ({ name, email, age }) => {
   return (
     <div>
       <h1>{name}</h1>
